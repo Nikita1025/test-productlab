@@ -1,0 +1,18 @@
+@import 'src/styles/mixins';
+@import 'src/styles/colors';
+
+.container{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 40px;
+  .card {
+    @include flex-block($flex-direction: row, $justify-content: flex-start);
+    .image{
+      width: 400px;
+      padding: 40px 20px;
+    }
+  }
+}
+
