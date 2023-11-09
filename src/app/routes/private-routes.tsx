@@ -2,10 +2,16 @@ import React from 'react';
 
 import { Navigate, Outlet } from 'react-router-dom';
 import { PATH } from 'src/app/routes/routes';
-import { useAppSelector } from 'src/services';
+import { setIsAuth, useAppDispatch } from 'src/services';
 
 export const PrivateRoutes = () => {
-  const isAuth = useAppSelector(state => state.auth.isAuth);
+  const dispatch = useAppDispatch();
+  const token = localStorage.getItem('JWT');
 
-  return isAuth ? <Outlet /> : <Navigate to={PATH.LOGIN} />;
+  console.log(token);
+  if (token) {
+    dispatch(setIsAuth(true));
+  }
+
+  return token ? <Outlet /> : <Navigate to={PATH.LOGIN} />;
 };

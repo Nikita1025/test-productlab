@@ -5,7 +5,8 @@
   @include flex-block($flex-direction: row, $justify-content: flex-start);
 
   .image {
-    width: 400px;
+    width: 350px;
+    height: 350px;
     transition: transform 0.3s ease;
     cursor: pointer;
 

@@ -10,6 +10,7 @@ import { Card } from 'src/components/ui/card-temporary';
 import { ControlledTextField } from 'src/components/ui/controlled';
 import { Typography } from 'src/components/ui/typography';
 import { LoginArgsType, setIsAuth, useAppDispatch, useAppSelector } from 'src/services';
+import { useGetUsersQuery, useLoginUserMutation } from 'src/services/auth/auth-api';
 
 import s from './login-form.module.scss';
 
@@ -18,8 +19,9 @@ type LoginType = {
   errorServer?: string;
 };
 export const LoginForm: FC<LoginType> = ({ onSubmitHandler, errorServer }) => {
-  // const [loginUser] = useLoginUserMutation()
-  const dispatch = useAppDispatch();
+  const [loginUser] = useLoginUserMutation();
+
+  const { data } = useGetUsersQuery();
   const isAuth = useAppSelector(state => state.auth.isAuth);
   const {
     control,
@@ -35,10 +37,10 @@ export const LoginForm: FC<LoginType> = ({ onSubmitHandler, errorServer }) => {
   });
 
   const submitData = (data: LoginArgsType) => {
-    // loginUser(data);
-    console.log(data);
-    dispatch(setIsAuth(true));
+    loginUser(data);
   };
+
+  console.log(data);
 
   if (isAuth) {
     return <Navigate to={PATH.MAIN} />;

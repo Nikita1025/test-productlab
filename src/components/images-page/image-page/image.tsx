@@ -7,10 +7,8 @@ import s from './image.module.scss';
 type ImageType = {
   id: number;
   image: string;
-  text: string;
-  title: string;
 };
-export const Image = ({ id, image, title, text }: ImageType) => {
+export const Image = ({ id, image }: ImageType) => {
   const [openModal, setOpenModal] = useState(false);
   const onClickModal = () => {
     setOpenModal(!openModal);
