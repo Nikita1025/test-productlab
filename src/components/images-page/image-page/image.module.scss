@@ -1,0 +1,16 @@
+@import 'src/styles/mixins';
+@import 'src/styles/colors';
+
+.card {
+  @include flex-block($flex-direction: row, $justify-content: flex-start);
+
+  .image {
+    width: 400px;
+    transition: transform 0.3s ease;
+    cursor: pointer;
+
+    &:hover {
+      transform: scale(0.9);
+    }
+  }
+}

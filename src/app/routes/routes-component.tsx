@@ -14,8 +14,6 @@ export const RoutesComponent = () => {
       <Routes>
         <Route element={<PrivateRoutes />}>
           <Route path={PATH.MAIN} element={<ImagesPage />} />
-          {/*<Route path={PATH.MAIN + ':id'} element={<PurchaseOrderPage />} />*/}
-          {/*<Route path={PATH.MAIN + ':id' + PATH.PRODUCTS} element={<Products />} />*/}
         </Route>
         <Route path={PATH.LOGIN} element={<LoginForm />} />
         <Route path={'*'} element={<ErrorPage />} />

@@ -1,20 +1,6 @@
 @import 'src/styles/mixins';
 @import 'src/styles/colors';
 
-.widePaddingButton {
-  padding-right: 36px;
-  padding-left: 36px;
-  margin-left: 10px;
-}
-
-.cancelButtonHide {
-  display: none;
-}
-
-.actionButtonHide {
-  display: none;
-}
-
 .separator[data-orientation='horizontal'] {
   position: absolute;
   top: 59px;
@@ -44,14 +30,14 @@
   }
 }
 
-.DialogOverlay {
+.dialog_overlay {
   position: fixed;
   inset: 0;
 
   opacity: 0.8;
   background-color: $color-dark-900;
 
-  animation: overlay-show 150ms cubic-bezier(0.16, 1, 0.3, 1);
+  animation: overlay-show 10ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 @keyframes overlay-show {
@@ -64,7 +50,7 @@
   }
 }
 
-.DialogContent {
+.content {
   position: fixed;
   z-index: 100;
   top: 50%;
@@ -76,33 +62,16 @@
   background-color: $color-dark-300;
   border: 1px solid $color-dark-100;
   border-radius: 2px;
-
-  animation: content-show 150ms cubic-bezier(0.16, 1, 0.3, 1);
-
-  &.sm {
-    width: 378px;
-  }
-
-  &.md {
-    width: 438px;
-  }
-
-  &.lg {
-    width: 644px;
-  }
+  animation: content-show 800ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.DialogContent:focus {
-  outline: none;
+
+.content_box {
+  @include flex-block($gap: 24px, $align-items: flex-start, $flex-direction: row);
+
 }
 
-.contentBox {
-  @include flex-block($gap: 24px, $align-items: center);
-
-  margin-bottom: 18px;
-}
-
-.IconButton {
+.icon_button {
   all: unset;
 
   cursor: pointer;
@@ -121,11 +90,6 @@
   }
 }
 
-.footerBlock {
-  @include flex-block($flex-direction: row, $justify-content: flex-end);
-
-  padding-top: 12px;
-}
 
 @keyframes content-show {
   from {
