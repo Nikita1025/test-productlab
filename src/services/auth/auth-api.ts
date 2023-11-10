@@ -1,12 +1,11 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-
-import { LoginArgsType } from './auth-api-types';
-import { setIsAuth, setUser } from './auth-slice';
-const baseUrl = '/';
+import { LoginArgsType } from 'src/services';
+import { setResponseMessageAC, setSubmittingAC } from 'src/services/app-slice';
+import { setIsAuth } from 'src/services/auth';
 
 export const authApi = createApi({
   reducerPath: 'api',
-  baseQuery: fetchBaseQuery({ baseUrl }),
+  baseQuery: fetchBaseQuery({ baseUrl: '/' }),
   endpoints: builder => ({
     loginUser: builder.mutation<any, LoginArgsType>({
       query: data => ({
@@ -15,20 +14,19 @@ export const authApi = createApi({
         body: data,
       }),
       async onQueryStarted(args, { dispatch, queryFulfilled }) {
+        dispatch(setSubmittingAC(true));
         try {
           const { data } = await queryFulfilled;
 
           localStorage.setItem('JWT', data.token);
           dispatch(setIsAuth(true));
-          dispatch(setUser(data.userId));
+          dispatch(setSubmittingAC(false));
+          dispatch(setResponseMessageAC(data.message));
         } catch (e) {
-          console.error(e);
+          dispatch(setSubmittingAC(false));
         }
       },
     }),
-    getUsers: builder.query<any, void>({
-      query: () => 'users',
-    }),
   }),
 });
-export const { useGetUsersQuery, useLoginUserMutation } = authApi;
+export const { useLoginUserMutation } = authApi;

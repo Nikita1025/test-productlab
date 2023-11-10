@@ -1,4 +1,4 @@
-import { CommentsType, ImagesType } from './types-mock-data';
+import { CommentsType, ImagesType } from 'src/services/mocks';
 
 export const Images: ImagesType[] = [
   {

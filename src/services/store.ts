@@ -1,13 +1,14 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
 
-import { authApi } from './auth/auth-api';
-import { authReducer } from './auth/auth-slice';
-import { commentsApi } from './comments/comments-api';
-import { imagesApi } from './images/images-api';
+import { appReducer } from './app-slice';
+import { authApi, authReducer } from './auth';
+import { commentsApi } from './comments';
+import { imagesApi } from './images';
 
 const rootReducer = combineReducers({
   auth: authReducer,
+  app: appReducer,
   [authApi.reducerPath]: authApi.reducer,
   [imagesApi.reducerPath]: imagesApi.reducer,
   [commentsApi.reducerPath]: commentsApi.reducer,

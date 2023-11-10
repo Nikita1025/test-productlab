@@ -1,4 +1,4 @@
-import React, { FC, useEffect } from 'react';
+import React from 'react';
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
@@ -9,19 +9,13 @@ import { Button } from 'src/components/ui/button';
 import { Card } from 'src/components/ui/card-temporary';
 import { ControlledTextField } from 'src/components/ui/controlled';
 import { Typography } from 'src/components/ui/typography';
-import { LoginArgsType, setIsAuth, useAppDispatch, useAppSelector } from 'src/services';
-import { useGetUsersQuery, useLoginUserMutation } from 'src/services/auth/auth-api';
+import { LoginArgsType, useAppSelector } from 'src/services';
+import { useLoginUserMutation } from 'src/services/auth';
 
 import s from './login-form.module.scss';
 
-type LoginType = {
-  onSubmitHandler?: (data: LoginArgsType) => void;
-  errorServer?: string;
-};
-export const LoginForm: FC<LoginType> = ({ onSubmitHandler, errorServer }) => {
-  const [loginUser] = useLoginUserMutation();
-
-  const { data } = useGetUsersQuery();
+export const LoginForm = () => {
+  const [loginUser, { isSuccess }] = useLoginUserMutation();
   const isAuth = useAppSelector(state => state.auth.isAuth);
   const {
     control,
@@ -40,42 +34,40 @@ export const LoginForm: FC<LoginType> = ({ onSubmitHandler, errorServer }) => {
     loginUser(data);
   };
 
-  console.log(data);
-
   if (isAuth) {
     return <Navigate to={PATH.MAIN} />;
   }
 
   return (
-    <Card className={s.card}>
-      <div className={s.content}>
-        <Typography variant="h1" className={s.title}>
-          Sing in
-        </Typography>
-        <form onSubmit={handleSubmit(submitData)} className={s.form}>
-          <ControlledTextField
-            control={control}
-            name="email"
-            label="Email"
-            className={`${s.field} ${errors.email && s.fieldWithError}`}
-            fullWidth
-          />
+    <div>
+      <Card className={s.card}>
+        <div className={s.content}>
+          <Typography variant="h1" className={s.title}>
+            Sing in
+          </Typography>
+          <form onSubmit={handleSubmit(submitData)} className={s.form}>
+            <ControlledTextField
+              control={control}
+              name="email"
+              label="Email"
+              className={`${s.field} ${errors.email && s.fieldWithError}`}
+              fullWidth
+            />
 
-          <ControlledTextField
-            control={control}
-            name="password"
-            label="Password"
-            type="password"
-            className={`${s.passField} ${
-              errors.password && s.fieldWithError && errorServer
-            }`}
-            fullWidth
-          />
-          <Button type="submit" variant="primary" fullWidth className={s.singIn}>
-            <Typography variant="bold16">Sing in</Typography>
-          </Button>
-        </form>
-      </div>
-    </Card>
+            <ControlledTextField
+              control={control}
+              name="password"
+              label="Password"
+              type="password"
+              className={`${s.passField} ${errors.password && s.fieldWithError}`}
+              fullWidth
+            />
+            <Button type="submit" variant="primary" fullWidth className={s.singIn}>
+              <Typography variant="bold16">Sing in</Typography>
+            </Button>
+          </form>
+        </div>
+      </Card>
+    </div>
   );
 };

@@ -2,7 +2,7 @@ import React from 'react';
 
 import { Route, Routes } from 'react-router-dom';
 import { LoginForm } from 'src/components/auth';
-import { ImagesPage } from 'src/components/images-page/images-page';
+import { ImagesPage } from 'src/components/images-page';
 import { ErrorPage } from 'src/components/ui/404';
 
 import { PrivateRoutes } from './private-routes';

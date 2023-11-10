@@ -1,4 +1,4 @@
-import { CommentsType } from 'src/services/mocks/types-mock-data';
+import { CommentsType } from 'src/services/mocks';
 
 export type GetCommentsResponseType = {
   comments: CommentsType[];

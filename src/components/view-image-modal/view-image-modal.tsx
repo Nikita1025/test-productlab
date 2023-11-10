@@ -2,13 +2,10 @@ import React, { useState } from 'react';
 
 import { BaseModal } from 'src/components/ui/base-modal';
 import { Button } from 'src/components/ui/button';
+import { SkeletonComments } from 'src/components/ui/skeletons/skeleton-comments';
 import { TexField } from 'src/components/ui/text-field';
 import { Typography } from 'src/components/ui/typography';
-
-import {
-  useCreateCommentMutation,
-  useGetCommentsQuery,
-} from '../../services/comments/comments-api';
+import { useCreateCommentMutation, useGetCommentsQuery } from 'src/services/comments';
 
 import s from './view-image-modal.module.scss';
 
@@ -26,14 +23,13 @@ export const ViewImageModal = ({
   id,
 }: ViewImageModalType) => {
   const [value, setValue] = useState('');
-  const { data } = useGetCommentsQuery(id);
+  const { data, isLoading } = useGetCommentsQuery(id);
   const [createCommit] = useCreateCommentMutation();
 
   const onChangeValue = (newValue: string) => {
     setValue(newValue);
   };
   const onClick = () => {
-    //submit data
     createCommit({ id: id, imageId: id, name: 'Nikita', newMessage: value, admin: true });
     setValue('');
   };
@@ -43,6 +39,7 @@ export const ViewImageModal = ({
       <img src={image} className={s.image} />
       <div>
         <div className={s.comment_container}>
+          {isLoading && <SkeletonComments />}
           {data?.comments?.map(el => (
             <div className={s.text_container} key={el.id}>
               <Typography variant="bold14">{el.name}</Typography>

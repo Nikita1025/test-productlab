@@ -9,8 +9,6 @@ import { BrowserRouter } from 'react-router-dom';
 import App from 'src/app/App';
 import { store } from 'src/services';
 
-import { worker } from './services/mocks/browser';
-
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 
 if (process.env.NODE_ENV === 'development') {

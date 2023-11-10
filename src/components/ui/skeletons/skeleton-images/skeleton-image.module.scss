@@ -1,0 +1,15 @@
+@import "../../../../styles/colors";
+.container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-gap: 20px;
+  .block {
+    width: 350px;
+    height: 350px;
+    border-radius: 2px;
+    background-color: $color-dark-500;
+    border: 1px solid $color-dark-500;
+  }
+}
+
+

@@ -1,10 +1,10 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-
+import { setErrorMessageAC, setResponseMessageAC, setSubmittingAC } from 'src/services';
 import {
   CreateCommentRequestType,
   CreateCommentResponseType,
   GetCommentsResponseType,
-} from './comments-api-types';
+} from 'src/services/comments';
 
 const token = localStorage.getItem('JWT');
 
@@ -21,6 +21,18 @@ export const commentsApi = createApi({
           Authorization: `Bearer ${token!}`,
         },
       }),
+      async onQueryStarted(args, { dispatch, queryFulfilled }) {
+        dispatch(setSubmittingAC(true));
+        try {
+          await queryFulfilled;
+
+          dispatch(setSubmittingAC(false));
+        } catch (e: any) {
+          dispatch(setErrorMessageAC(e.error.data.message));
+
+          dispatch(setSubmittingAC(false));
+        }
+      },
       providesTags: ['createComment'],
     }),
     createComment: builder.mutation<
@@ -31,8 +43,24 @@ export const commentsApi = createApi({
         method: 'POST',
         url: `comments/${id}`,
         body: data,
+        headers: {
+          Authorization: `Bearer ${token!}`,
+        },
       }),
-      invalidatesTags: ['createComment'],
+
+      async onQueryStarted(args, { dispatch, queryFulfilled }) {
+        dispatch(setSubmittingAC(true));
+        try {
+          const { data } = await queryFulfilled;
+
+          dispatch(setResponseMessageAC(data.message!));
+          dispatch(setSubmittingAC(false));
+        } catch (e: any) {
+          dispatch(setErrorMessageAC(e.error.data.message));
+
+          dispatch(setSubmittingAC(false));
+        }
+      },
     }),
   }),
 });
