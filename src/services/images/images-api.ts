@@ -12,9 +12,9 @@ export const imagesApi = createApi({
       query: () => ({
         method: 'GET',
         url: 'images',
-        // headers: {
-        //   Authorization: `Bearer ${token!}`,
-        // },
+        headers: {
+          Authorization: `Bearer ${token!}`,
+        },
       }),
     }),
   }),

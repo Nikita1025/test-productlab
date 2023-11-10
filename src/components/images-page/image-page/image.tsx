@@ -20,7 +20,12 @@ export const Image = ({ id, image }: ImageType) => {
         <img src={image} onClick={onClickModal} className={s.image} />
       </Card>
       {openModal && (
-        <ViewImageModal image={image} onClickModal={onClickModal} openModal={openModal} />
+        <ViewImageModal
+          image={image}
+          id={id}
+          onClickModal={onClickModal}
+          openModal={openModal}
+        />
       )}
     </div>
   );
