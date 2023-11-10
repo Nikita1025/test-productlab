@@ -62,7 +62,7 @@ export const handlers = [
     const { id } = req.params;
 
     const newComments = Comments.filter(el => el.imageId === +id);
-    const arr = [...newComments, s];
+    const arr = [s, ...newComments];
     const headers = req.headers;
 
     const authToken = headers.get('Authorization');
@@ -73,6 +73,32 @@ export const handlers = [
           context.delay(200),
           context.json({
             body: arr,
+            message: 'Successfully',
+          }),
+        )
+      : res(
+          context.status(401),
+          context.json({
+            message: 'Unauthorized',
+          }),
+        );
+  }),
+  rest.delete('comments/:imageId', (req, res, context) => {
+    const id = req.body;
+
+    const { imageId } = req.params;
+    let filteredObjects = Comments.filter(el => el.imageId === +imageId);
+
+    const headers = req.headers;
+
+    const authToken = headers.get('Authorization');
+
+    return authToken
+      ? res(
+          context.status(200),
+          context.delay(200),
+          context.json({
+            body: filteredObjects,
             message: 'Successfully',
           }),
         )

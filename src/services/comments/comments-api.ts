@@ -1,8 +1,9 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { setErrorMessageAC, setResponseMessageAC, setSubmittingAC } from 'src/services';
 import {
+  CommentResponseType,
   CreateCommentRequestType,
-  CreateCommentResponseType,
+  DeleteCommentRequestType,
   GetCommentsResponseType,
 } from 'src/services/comments';
 
@@ -33,10 +34,9 @@ export const commentsApi = createApi({
           dispatch(setSubmittingAC(false));
         }
       },
-      providesTags: ['createComment'],
     }),
     createComment: builder.mutation<
-      CreateCommentResponseType,
+      CommentResponseType,
       CreateCommentRequestType & Pick<CreateCommentRequestType, 'id'>
     >({
       query: ({ id, ...data }) => ({
@@ -62,6 +62,34 @@ export const commentsApi = createApi({
         }
       },
     }),
+    deleteComment: builder.mutation<
+      CommentResponseType,
+      DeleteCommentRequestType & Pick<DeleteCommentRequestType, 'imageId'>
+    >({
+      query: ({ imageId, ...data }) => ({
+        method: 'DELETE',
+        url: `comments/${imageId}`,
+        body: data,
+        headers: {
+          Authorization: `Bearer ${token!}`,
+        },
+      }),
+
+      async onQueryStarted(args, { dispatch, queryFulfilled }) {
+        dispatch(setSubmittingAC(true));
+        try {
+          const { data } = await queryFulfilled;
+
+          dispatch(setResponseMessageAC(data.message!));
+          dispatch(setSubmittingAC(false));
+        } catch (e: any) {
+          dispatch(setErrorMessageAC(e.error.data.message));
+
+          dispatch(setSubmittingAC(false));
+        }
+      },
+    }),
   }),
 });
-export const { useGetCommentsQuery, useCreateCommentMutation } = commentsApi;
+export const { useGetCommentsQuery, useDeleteCommentMutation, useCreateCommentMutation } =
+  commentsApi;

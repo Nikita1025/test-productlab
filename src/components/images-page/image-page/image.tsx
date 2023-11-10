@@ -5,10 +5,10 @@ import { ViewImageModal } from 'src/components/view-image-modal';
 
 import s from './image.module.scss';
 type ImageType = {
-  id: number;
   image: string;
+  imageId: number;
 };
-export const Image = ({ id, image }: ImageType) => {
+export const Image = ({ image, imageId }: ImageType) => {
   const [openModal, setOpenModal] = useState(false);
   const onClickModal = () => {
     setOpenModal(!openModal);
@@ -22,7 +22,7 @@ export const Image = ({ id, image }: ImageType) => {
       {openModal && (
         <ViewImageModal
           image={image}
-          id={id}
+          imageId={imageId}
           onClickModal={onClickModal}
           openModal={openModal}
         />

@@ -15,7 +15,7 @@ export const ImagesPage = () => {
       {isLoading && <SkeletonImage />}
 
       <div className={s.container}>
-        {data?.img?.map(el => <Image key={el.id} image={el.img} id={el.id} />)}
+        {data?.img?.map(el => <Image key={el.id} image={el.img} imageId={el.id} />)}
       </div>
     </div>
   );
