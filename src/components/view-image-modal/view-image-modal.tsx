@@ -30,7 +30,7 @@ export const ViewImageModal = ({
 }: ViewImageModalType) => {
   const [value, setValue] = useState('');
   const [comments, setComments] = useState<CommentsType[]>([]);
-  const { data, isLoading } = useGetCommentsQuery(imageId);
+  const { data, isLoading, isSuccess } = useGetCommentsQuery(imageId);
   const [deleteComment, { isSuccess: isSuccessDelete, data: deleteData }] =
     useDeleteCommentMutation();
   const [createComment, { isSuccess: isSuccessCreate, data: newData }] =
@@ -43,28 +43,28 @@ export const ViewImageModal = ({
     createComment({ imageId: imageId, name: 'Nikita', body: value, admin: true });
     setValue('');
   };
+  const onDeleteComment = (id: number) => {
+    deleteComment({ id, imageId: imageId });
+  };
 
   useEffect(() => {
     if (isSuccessCreate) {
       setComments(newData?.body!);
     } else if (isSuccessDelete) {
       setComments(deleteData?.body!);
-    } else {
+    } else if (isSuccess) {
       setComments(data?.comments!);
     }
   }, [newData, data, deleteData]);
-  const onDeleteComment = (id: number) => {
-    deleteComment({ id, imageId: imageId });
-  };
 
   return (
     <BaseModal onClose={onClickModal} title="View image" open={openModal}>
-      <img src={image} className={s.image} />
+      <img src={image} className={s.image} alt="image" />
       <div>
         <div className={s.comment_container}>
-          {isLoading && <SkeletonComments />}
-          {comments?.map(el => (
-            <div className={s.text_container} key={el.id}>
+          {isLoading || comments.length === 0 ? <SkeletonComments /> : ''}
+          {comments?.map((el, index) => (
+            <div className={s.text_container} key={index}>
               <div className={s.header_block}>
                 <Typography variant="bold14">{el.name}</Typography>
                 {el.admin && (

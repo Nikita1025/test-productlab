@@ -5,6 +5,7 @@ import { useForm } from 'react-hook-form';
 import { Navigate } from 'react-router-dom';
 import { PATH } from 'src/app/routes';
 import { createLoginSchema } from 'src/common/schemas';
+import { SnackbarInfo } from 'src/common/snackbar-info';
 import { Button } from 'src/components/ui/button';
 import { Card } from 'src/components/ui/card-temporary';
 import { ControlledTextField } from 'src/components/ui/controlled';
@@ -15,7 +16,7 @@ import { useLoginUserMutation } from 'src/services/auth';
 import s from './login-form.module.scss';
 
 export const LoginForm = () => {
-  const [loginUser, { isSuccess }] = useLoginUserMutation();
+  const [loginUser, { isError }] = useLoginUserMutation();
   const isAuth = useAppSelector(state => state.auth.isAuth);
   const {
     control,
@@ -40,6 +41,7 @@ export const LoginForm = () => {
 
   return (
     <div>
+      {isError && <SnackbarInfo />}
       <Card className={s.card}>
         <div className={s.content}>
           <Typography variant="h1" className={s.title}>

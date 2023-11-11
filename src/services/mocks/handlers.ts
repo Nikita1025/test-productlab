@@ -1,18 +1,32 @@
 import { rest } from 'msw';
+import { LoginArgsType } from 'src/services/auth';
+import {
+  CreateCommentRequestType,
+  DeleteCommentRequestType,
+} from 'src/services/comments';
 
 import { Comments, Images } from './bd';
 
 export const handlers = [
-  rest.post('login', (req, res, context) => {
-    return res(
-      context.status(200),
-      context.delay(800),
-      context.json({
-        token:
-          'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjMsInJvbGUiOiJhZG1pbiIsImRldmljZUlkIjoiNzI1MjQyNjQtMGE2My00NWYxLTlhMmMtZGRmMmQyMTcyYTY2IiwiaWF0IjoxNjk5NTQyOTU2LCJleHAiOjE2OTk1NDU1NDh9.lQx8l88uIu7tCQZmWzByOfG9o92r3s4qN8weGP\\n62O_I',
-        message: 'Successfully',
-      }),
-    );
+  rest.post<LoginArgsType>('login', (req, res, context) => {
+    const loginArgs = req.body;
+
+    return loginArgs
+      ? res(
+          context.status(200),
+          context.delay(800),
+          context.json({
+            token:
+              'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjMsInJvbGUiOiJhZG1pbiIsImRldmljZUlkIjoiNzI1MjQyNjQtMGE2My00NWYxLTlhMmMtZGRmMmQyMTcyYTY2IiwiaWF0IjoxNjk5NTQyOTU2LCJleHAiOjE2OTk1NDU1NDh9.lQx8l88uIu7tCQZmWzByOfG9o92r3s4qN8weGP\\n62O_I',
+          }),
+        )
+      : res(
+          context.status(400),
+          context.delay(300),
+          context.json({
+            message: 'incorrect login or password',
+          }),
+        );
   }),
   rest.get('images', (req, res, context) => {
     const headers = req.headers;
@@ -58,11 +72,11 @@ export const handlers = [
         );
   }),
   rest.post('comments/:id', (req, res, context) => {
-    const s = req.body;
+    const newData = req.body;
     const { id } = req.params;
 
     const newComments = Comments.filter(el => el.imageId === +id);
-    const arr = [s, ...newComments];
+    const arr = [newData, ...newComments];
     const headers = req.headers;
 
     const authToken = headers.get('Authorization');
@@ -83,11 +97,12 @@ export const handlers = [
           }),
         );
   }),
-  rest.delete('comments/:imageId', (req, res, context) => {
-    const id = req.body;
+  rest.delete<DeleteCommentRequestType>('comments/:imageId', (req, res, context) => {
+    const { id } = req.body;
 
     const { imageId } = req.params;
     let filteredObjects = Comments.filter(el => el.imageId === +imageId);
+    let newArr = filteredObjects.filter(el => el.id !== id);
 
     const headers = req.headers;
 
@@ -98,7 +113,7 @@ export const handlers = [
           context.status(200),
           context.delay(200),
           context.json({
-            body: filteredObjects,
+            body: newArr,
             message: 'Successfully',
           }),
         )

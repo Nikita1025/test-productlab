@@ -1,7 +1,5 @@
 import React from 'react';
 
-import { Card } from 'src/components/ui/card-temporary';
-
 import s from './skeleton-image.module.scss';
 export const SkeletonImage = () => {
   return (

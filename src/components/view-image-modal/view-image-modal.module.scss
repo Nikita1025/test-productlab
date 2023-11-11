@@ -19,11 +19,13 @@
     border-radius: 2px;
     margin-bottom: 15px;
     border: 1px solid $color-light-900;
-    .header_block{
+
+    .header_block {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      .icon{
+
+      .icon {
         cursor: pointer;
       }
     }

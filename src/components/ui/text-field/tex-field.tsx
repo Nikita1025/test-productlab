@@ -14,14 +14,14 @@ export type TextFieldPropsType = {
   isRequired?: boolean;
 } & ComponentProps<'input'>;
 
-export const TexField: React.FC<TextFieldPropsType> = ({
+export const TexField = ({
   value,
   errorMessage,
   className,
   fullWidth,
   isRequired,
   ...restProps
-}) => {
+}: TextFieldPropsType) => {
   return (
     <div className={`${className} ${fullWidth ? s.fullWidth : ''}`}>
       <InputMain

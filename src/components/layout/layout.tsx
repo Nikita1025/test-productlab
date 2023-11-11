@@ -5,6 +5,7 @@ import { Header } from 'src/components/ui/header';
 import { useAppSelector, appStatusSelector } from 'src/services';
 
 import s from './layout.module.scss';
+
 type AuthLayoutType = {
   children: ReactNode;
 };

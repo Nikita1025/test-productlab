@@ -17,7 +17,7 @@ export const Image = ({ image, imageId }: ImageType) => {
   return (
     <div>
       <Card className={s.card}>
-        <img src={image} onClick={onClickModal} className={s.image} />
+        <img src={image} onClick={onClickModal} className={s.image} alt="image" />
       </Card>
       {openModal && (
         <ViewImageModal

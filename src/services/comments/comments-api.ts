@@ -30,18 +30,17 @@ export const commentsApi = createApi({
           dispatch(setSubmittingAC(false));
         } catch (e: any) {
           dispatch(setErrorMessageAC(e.error.data.message));
-
           dispatch(setSubmittingAC(false));
         }
       },
     }),
     createComment: builder.mutation<
       CommentResponseType,
-      CreateCommentRequestType & Pick<CreateCommentRequestType, 'id'>
+      CreateCommentRequestType & Pick<CreateCommentRequestType, 'imageId'>
     >({
-      query: ({ id, ...data }) => ({
+      query: ({ imageId, ...data }) => ({
         method: 'POST',
-        url: `comments/${id}`,
+        url: `comments/${imageId}`,
         body: data,
         headers: {
           Authorization: `Bearer ${token!}`,

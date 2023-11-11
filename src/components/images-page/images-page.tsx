@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { SnackbarInfo } from 'src/common/errorSnackbar';
+import { SnackbarInfo } from 'src/common/snackbar-info';
 import { Image } from 'src/components/images-page/image-page';
 import { SkeletonImage } from 'src/components/ui/skeletons/skeleton-images';
 import { useGetImagesQuery } from 'src/services/images';
@@ -12,7 +12,7 @@ export const ImagesPage = () => {
   return (
     <div>
       {isError || isSuccess ? <SnackbarInfo /> : ''}
-      {isLoading && <SkeletonImage />}
+      {isLoading || data?.img?.length === 0 ? <SkeletonImage /> : ''}
 
       <div className={s.container}>
         {data?.img?.map(el => <Image key={el.id} image={el.img} imageId={el.id} />)}

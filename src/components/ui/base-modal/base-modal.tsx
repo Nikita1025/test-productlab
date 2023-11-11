@@ -22,7 +22,7 @@ export type ModalProps = {
   children?: ReactNode;
 } & ComponentPropsWithoutRef<'div'>;
 
-export const BaseModal: FC<ModalProps> = ({
+export const BaseModal = ({
   showSeparator = true,
   onClose,
   open,
@@ -30,7 +30,7 @@ export const BaseModal: FC<ModalProps> = ({
   className,
   children,
   ...rest
-}) => {
+}: ModalProps) => {
   const classNames = {
     separator: clsx(s.separator, !showSeparator && s.separatorHide),
   };
